@@ -1,0 +1,42 @@
+<div class="admin-container">
+  <nav class="admin-sidebar" [class.collapsed]="!sidebarOpen">
+    <div class="sidebar-header">
+      <h3>Administration</h3>
+      <button class="toggle-btn" (click)="toggleSidebar()">
+        {{ sidebarOpen ? '✕' : '☰' }}
+      </button>
+    </div>
+
+    <ul class="sidebar-menu">
+      <li>
+        <a routerLink="/admin/candidates" routerLinkActive="active">
+          👥 Candidats
+        </a>
+      </li>
+      <li>
+        <a routerLink="/admin/trainers" routerLinkActive="active">
+          👨‍🏫 Formateurs
+        </a>
+      </li>
+      <li>
+        <a routerLink="/admin/formations" routerLinkActive="active">
+          📚 Formations
+        </a>
+      </li>
+      <li>
+        <a routerLink="/admin/sessions" routerLinkActive="active">
+          📅 Sessions
+        </a>
+      </li>
+      <li>
+        <a routerLink="/" class="logout">
+          🚪 Retour au site
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="admin-content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

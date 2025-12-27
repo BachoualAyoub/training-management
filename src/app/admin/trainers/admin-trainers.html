@@ -1,0 +1,138 @@
+<div class="container">
+  <div class="header">
+    <h1>Gestion des Formateurs</h1>
+    <button class="btn btn-primary" (click)="openForm()" *ngIf="!showForm">
+      ➕ Nouveau formateur
+    </button>
+  </div>
+
+  <div *ngIf="showForm" class="form-container">
+    <h2>{{ editingId ? 'Éditer' : 'Ajouter' }} un formateur</h2>
+    <form (ngSubmit)="save()">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Prénom</label>
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="formData.firstName"
+            name="firstName"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label>Nom</label>
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="formData.lastName"
+            name="lastName"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Email</label>
+          <input
+            type="email"
+            class="form-control"
+            [(ngModel)]="formData.email"
+            name="email"
+          />
+        </div>
+        <div class="form-group">
+          <label>Téléphone</label>
+          <input
+            type="tel"
+            class="form-control"
+            [(ngModel)]="formData.phone"
+            name="phone"
+          />
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>CIN</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="formData.cin"
+          name="cin"
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Spécialités</label>
+        <div class="specialty-input">
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="specialtyInput"
+            name="specialtyInput"
+            placeholder="Ajouter une spécialité"
+          />
+          <button type="button" class="btn btn-sm btn-info" (click)="addSpecialty()">
+            Ajouter
+          </button>
+        </div>
+        <div class="specialty-tags">
+          <span *ngFor="let specialty of formData.specialties" class="tag">
+            {{ specialty }}
+            <button
+              type="button"
+              class="tag-remove"
+              (click)="removeSpecialty(specialty)"
+            >
+              ✕
+            </button>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-success">Enregistrer</button>
+        <button type="button" class="btn btn-secondary" (click)="closeForm()">
+          Annuler
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="table-container">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Prénom</th>
+          <th>Nom</th>
+          <th>Email</th>
+          <th>Téléphone</th>
+          <th>Spécialités</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let trainer of trainers">
+          <td>{{ trainer.firstName }}</td>
+          <td>{{ trainer.lastName }}</td>
+          <td>{{ trainer.email }}</td>
+          <td>{{ trainer.phone }}</td>
+          <td>
+            <span *ngFor="let spec of trainer.specialties" class="badge">
+              {{ spec }}
+            </span>
+          </td>
+          <td>
+            <button class="btn btn-sm btn-warning" (click)="edit(trainer)">
+              ✎ Éditer
+            </button>
+            <button class="btn btn-sm btn-danger" (click)="delete(trainer.id)">
+              🗑 Supprimer
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

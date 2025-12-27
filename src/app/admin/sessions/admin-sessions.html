@@ -1,0 +1,96 @@
+<div class="container">
+  <div class="header">
+    <h1>Gestion des Sessions</h1>
+    <button class="btn btn-primary" (click)="openForm()" *ngIf="!showForm">
+      ➕ Nouvelle session
+    </button>
+  </div>
+
+  <div *ngIf="showForm" class="form-container">
+    <h2>{{ editingId ? 'Éditer' : 'Ajouter' }} une session</h2>
+    <form (ngSubmit)="save()">
+      <div class="form-group">
+        <label>Formation</label>
+        <select
+          class="form-control"
+          [(ngModel)]="formData.formation"
+          name="formation"
+          required
+        >
+          <option value="">-- Sélectionner une formation --</option>
+          <option *ngFor="let f of formations" [ngValue]="f">
+            {{ f.title }}
+          </option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Description</label>
+        <textarea
+          class="form-control"
+          [(ngModel)]="formData.description"
+          name="description"
+          rows="3"
+        ></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Date de début</label>
+          <input
+            type="date"
+            class="form-control"
+            [(ngModel)]="formData.startDate"
+            name="startDate"
+          />
+        </div>
+        <div class="form-group">
+          <label>Date de fin</label>
+          <input
+            type="date"
+            class="form-control"
+            [(ngModel)]="formData.endDate"
+            name="endDate"
+          />
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-success">Enregistrer</button>
+        <button type="button" class="btn btn-secondary" (click)="closeForm()">
+          Annuler
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="table-container">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Formation</th>
+          <th>Début</th>
+          <th>Fin</th>
+          <th>Candidats</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let session of sessions">
+          <td>{{ session.formation.title }}</td>
+          <td>{{ session.startDate | date: 'dd/MM/yyyy' }}</td>
+          <td>{{ session.endDate | date: 'dd/MM/yyyy' }}</td>
+          <td>{{ session.candidates.length }}/15</td>
+          <td>
+            <button class="btn btn-sm btn-warning" (click)="edit(session)">
+              ✎ Éditer
+            </button>
+            <button class="btn btn-sm btn-danger" (click)="delete(session.id)">
+              🗑 Supprimer
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

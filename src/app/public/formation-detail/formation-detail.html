@@ -1,0 +1,86 @@
+<div class="container mt-5">
+  <div *ngIf="!formation" class="alert alert-danger">
+    Formation non trouvée
+  </div>
+
+  <div *ngIf="formation">
+    <h1>{{ formation.title }}</h1>
+
+    <div class="card mb-4">
+      <div class="card-body">
+        <p>{{ formation.description }}</p>
+        <p><strong>Charge horaire :</strong> {{ formation.duration }} heures</p>
+        <p><strong>Niveau :</strong> {{ formation.level }}</p>
+        <p>
+          <strong>Tags :</strong>
+          <span *ngFor="let tag of formation.tags" class="badge bg-info me-2">
+            {{ tag }}
+          </span>
+        </p>
+        <button class="btn btn-primary" (click)="openPdf()">
+          📄 Voir programme (PDF)
+        </button>
+      </div>
+    </div>
+
+    <h2>Sessions disponibles</h2>
+
+    <div *ngIf="sessions.length === 0" class="alert alert-warning">
+      Aucune session disponible pour cette formation.
+    </div>
+
+    <div *ngFor="let session of sessions" class="card mb-3">
+      <div class="card-body">
+        <h5 class="card-title">
+          {{ session.startDate | date: 'dd/MM/yyyy' }} →
+          {{ session.endDate | date: 'dd/MM/yyyy' }}
+        </h5>
+
+        <p class="card-text">{{ session.description }}</p>
+
+        <p>
+          <strong>Formateurs :</strong>
+          <span *ngFor="let trainer of session.trainers; let last = last">
+            {{ trainer.firstName }} {{ trainer.lastName }}
+            <span *ngIf="!last">, </span>
+          </span>
+        </p>
+
+        <p class="text-muted">
+          Candidats inscrits : {{ session.candidates.length }}/15
+        </p>
+
+        <div *ngIf="!isSessionFull(session)" class="mt-3">
+          <h6>S'inscrire à cette session</h6>
+          <div class="mb-2">
+            <input
+              type="text"
+              class="form-control mb-2"
+              [(ngModel)]="firstName"
+              placeholder="Prénom"
+            />
+            <input
+              type="text"
+              class="form-control mb-2"
+              [(ngModel)]="lastName"
+              placeholder="Nom"
+            />
+            <input
+              type="email"
+              class="form-control mb-2"
+              [(ngModel)]="email"
+              placeholder="Email"
+            />
+            <button class="btn btn-success" (click)="register(session)">
+              ✓ S'inscrire
+            </button>
+          </div>
+        </div>
+
+        <div *ngIf="isSessionFull(session)" class="alert alert-danger mt-3">
+          ❌ Session complète (15 candidats)
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

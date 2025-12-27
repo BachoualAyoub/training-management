@@ -1,0 +1,46 @@
+<div class="container mt-5">
+  <h1>Rechercher une formation</h1>
+
+  <div class="mb-4">
+    <input
+      type="text"
+      class="form-control form-control-lg"
+      [(ngModel)]="tags"
+      placeholder="Entrer un mot clé (ex: angular, web, frontend...)"
+    />
+  </div>
+
+  <div *ngIf="filteredFormations.length === 0" class="alert alert-warning">
+    Aucune formation ne correspond à votre recherche.
+  </div>
+
+  <div class="row">
+    <div *ngFor="let formation of filteredFormations" class="col-md-6 mb-4">
+      <div class="card h-100 shadow-sm hover-shadow">
+        <div class="card-body">
+          <h5 class="card-title">{{ formation.title }}</h5>
+          <p class="card-text">{{ formation.description }}</p>
+
+          <p class="text-muted small">
+            <strong>Tags :</strong>
+            <span *ngFor="let tag of formation.tags" class="badge bg-light text-dark me-1">
+              {{ tag }}
+            </span>
+          </p>
+
+          <p class="text-muted small">
+            <strong>Niveau :</strong> {{ formation.level }} |
+            <strong>Durée :</strong> {{ formation.duration }}h
+          </p>
+
+          <a
+            [routerLink]="['/formations', formation.id]"
+            class="btn btn-primary btn-sm"
+          >
+            Voir détails →
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

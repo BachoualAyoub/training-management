@@ -1,0 +1,105 @@
+<div class="container">
+  <div class="header">
+    <h1>Gestion des Candidats</h1>
+    <button class="btn btn-primary" (click)="openForm()" *ngIf="!showForm">
+      ➕ Nouveau candidat
+    </button>
+  </div>
+
+  <div *ngIf="showForm" class="form-container">
+    <h2>{{ editingId ? 'Éditer' : 'Ajouter' }} un candidat</h2>
+    <form (ngSubmit)="save()">
+      <div class="form-group">
+        <label>Prénom</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="formData.firstName"
+          name="firstName"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Nom</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="formData.lastName"
+          name="lastName"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Email</label>
+        <input
+          type="email"
+          class="form-control"
+          [(ngModel)]="formData.email"
+          name="email"
+        />
+      </div>
+
+      <div class="form-group">
+        <label>CIN</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="formData.cin"
+          name="cin"
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Mot de passe</label>
+        <input
+          type="password"
+          class="form-control"
+          [(ngModel)]="formData.password"
+          name="password"
+        />
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-success">Enregistrer</button>
+        <button type="button" class="btn btn-secondary" (click)="closeForm()">
+          Annuler 
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="table-container">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Prénom</th>
+          <th>Nom</th>
+          <th>Email</th>
+          <th>CIN</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let candidate of candidates">
+          <td>{{ candidate.firstName }}</td>
+          <td>{{ candidate.lastName }}</td>
+          <td>{{ candidate.email }}</td>
+          <td>{{ candidate.cin }}</td>
+          <td>
+            <button class="btn btn-sm btn-warning" (click)="edit(candidate)">
+              ✎ Éditer
+            </button>
+            <button
+              class="btn btn-sm btn-danger"
+              (click)="delete(candidate.id)"
+            >
+              🗑 Supprimer
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

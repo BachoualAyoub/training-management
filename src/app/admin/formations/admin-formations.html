@@ -1,0 +1,126 @@
+<div class="container">
+  <div class="header">
+    <h1>Gestion des Formations</h1>
+    <button class="btn btn-primary" (click)="openForm()" *ngIf="!showForm">
+      ➕ Nouvelle formation
+    </button>
+  </div>
+
+  <div *ngIf="showForm" class="form-container">
+    <h2>{{ editingId ? 'Éditer' : 'Ajouter' }} une formation</h2>
+    <form (ngSubmit)="save()">
+      <div class="form-group">
+        <label>Titre</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="formData.title"
+          name="title"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Description</label>
+        <textarea
+          class="form-control"
+          [(ngModel)]="formData.description"
+          name="description"
+          rows="4"
+        ></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Durée (heures)</label>
+          <input
+            type="number"
+            class="form-control"
+            [(ngModel)]="formData.duration"
+            name="duration"
+          />
+        </div>
+        <div class="form-group">
+          <label>Niveau</label>
+          <select
+            class="form-control"
+            [(ngModel)]="formData.level"
+            name="level"
+          >
+            <option>Débutant</option>
+            <option>Intermédiaire</option>
+            <option>Avancé</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Tags</label>
+        <div class="tag-input">
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="tagInput"
+            name="tagInput"
+            placeholder="Ajouter un tag"
+          />
+          <button type="button" class="btn btn-sm btn-info" (click)="addTag()">
+            Ajouter
+          </button>
+        </div>
+        <div class="tag-list">
+          <span *ngFor="let tag of formData.tags" class="tag">
+            {{ tag }}
+            <button type="button" class="tag-remove" (click)="removeTag(tag)">
+              ✕
+            </button>
+          </span>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-success">Enregistrer</button>
+        <button type="button" class="btn btn-secondary" (click)="closeForm()">
+          Annuler
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="table-container">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Titre</th>
+          <th>Niveau</th>
+          <th>Durée</th>
+          <th>Tags</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let formation of formations">
+          <td>{{ formation.title }}</td>
+          <td>{{ formation.level }}</td>
+          <td>{{ formation.duration }}h</td>
+          <td>
+            <span *ngFor="let tag of formation.tags" class="badge">
+              {{ tag }}
+            </span>
+          </td>
+          <td>
+            <button class="btn btn-sm btn-warning" (click)="edit(formation)">
+              ✎ Éditer
+            </button>
+            <button
+              class="btn btn-sm btn-danger"
+              (click)="delete(formation.id)"
+            >
+              🗑 Supprimer
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
